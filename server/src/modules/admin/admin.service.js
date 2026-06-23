@@ -6,6 +6,8 @@ const Successor = require("../successor/successor.model");
 
 const { createAuditLog, } = require("../audit/audit.service");
 
+const AuditLog = require("../audit/audit.model");
+
 const getDashboardStats = async () => {
     const totalUsers =
         await User.countDocuments();
@@ -126,9 +128,17 @@ const rejectClaim = async (claimId, adminId, reason) => {
     return claim;
 };
 
+const getAuditLogs =
+    async () => {
+        return await AuditLog.find()
+            .sort({ createdAt: -1 })
+            .limit(100);
+    };
+
 module.exports = {
     getDashboardStats,
     getPendingClaims,
     approveClaim,
     rejectClaim,
+    getAuditLogs
 };
