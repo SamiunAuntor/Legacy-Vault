@@ -20,6 +20,13 @@ const createSuccessor = async (userId, payload) => {
             ...payload,
         });
 
+    await createAuditLog({
+        actorId: userId,
+        action: "SUCCESSOR_CREATED",
+        entity: "SUCCESSOR",
+        entityId: successor._id,
+    });
+
     return successor;
 };
 
@@ -65,21 +72,10 @@ const getSuccessorAccess = async (successorEmail) => {
     return successor;
 };
 
-await createAuditLog({
-    actorId: userId,
-
-    action: "SUCCESSOR_CREATED",
-
-    entity: "SUCCESSOR",
-
-    entityId: successor._id,
-});
-
 module.exports = {
     createSuccessor,
     getMySuccessor,
     updateSuccessor,
     deleteSuccessor,
-    getSuccessorAccess,
-    createAuditLog
+    getSuccessorAccess
 };
