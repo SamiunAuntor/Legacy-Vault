@@ -4,6 +4,8 @@ const Claim = require("../claim/claim.model");
 
 const Successor = require("../successor/successor.model");
 
+const { createAuditLog, } = require("../audit/audit.service");
+
 const getDashboardStats = async () => {
     const totalUsers =
         await User.countDocuments();
@@ -66,6 +68,17 @@ const approveClaim = async (claimId, adminId) => {
 
     await claim.save();
 
+    await createAuditLog({
+        actorId: adminId,
+        action: "CLAIM_APPROVED",
+        entity: "CLAIM",
+        entityId: claim._id,
+        metadata: {
+            successorId:
+                claim.successorId,
+        },
+    });
+
     await Successor.findByIdAndUpdate(
         claim.successorId,
         {
@@ -99,6 +112,16 @@ const rejectClaim = async (claimId, adminId, reason) => {
     claim.reviewNote = reason;
 
     await claim.save();
+
+    await createAuditLog({
+        actorId: adminId,
+        action: "CLAIM_REJECTED",
+        entity: "CLAIM",
+        entityId: claim._id,
+        metadata: {
+            reason,
+        },
+    });
 
     return claim;
 };
