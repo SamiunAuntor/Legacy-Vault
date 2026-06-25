@@ -128,12 +128,14 @@ const rejectClaim = async (claimId, adminId, reason) => {
     return claim;
 };
 
-const getAuditLogs =
-    async () => {
-        return await AuditLog.find()
-            .sort({ createdAt: -1 })
-            .limit(100);
-    };
+const getAuditLogs = async () => {
+    return await AuditLog.find()
+        .populate("actorId", "name email")
+        .sort({
+            createdAt: -1,
+        })
+        .limit(100);
+};
 
 module.exports = {
     getDashboardStats,
