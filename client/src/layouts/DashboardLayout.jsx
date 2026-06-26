@@ -5,13 +5,13 @@ import Topbar from "../components/layout/Topbar";
 
 export default function DashboardLayout() {
     return (
-        <div className="flex h-screen bg-slate-50">
+        <div className="flex min-h-screen bg-slate-50 text-slate-950">
             <Sidebar />
 
-            <main className="flex flex-1 flex-col overflow-hidden">
+            <main className="flex min-w-0 flex-1 flex-col">
                 <Topbar />
 
-                <section className="flex-1 overflow-y-auto p-8">
+                <section className="flex-1 px-6 py-8 lg:px-8">
                     <Outlet />
                 </section>
             </main>

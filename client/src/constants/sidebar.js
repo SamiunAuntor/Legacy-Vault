@@ -1,12 +1,12 @@
 import {
-    LayoutDashboard,
-    FolderLock,
-    Users,
-    ShieldQuestion,
     FileText,
+    LayoutDashboard,
+    Lock,
     Mail,
-    ClipboardCheck,
     Settings,
+    Shield,
+    Sparkles,
+    Users,
 } from "lucide-react";
 
 export const userSidebar = [
@@ -16,34 +16,34 @@ export const userSidebar = [
         icon: LayoutDashboard,
     },
     {
-        title: "Assets & Vault",
+        title: "Documents",
         path: "/dashboard/documents",
-        icon: FolderLock,
-    },
-    {
-        title: "Trusted Successor",
-        path: "/dashboard/successor",
-        icon: Users,
-    },
-    {
-        title: "Security Center",
-        path: "/dashboard/questions",
-        icon: ShieldQuestion,
-    },
-    {
-        title: "Legacy Directives",
-        path: "/dashboard/final-wishes",
         icon: FileText,
     },
     {
-        title: "Legacy Messages",
+        title: "Successors",
+        path: "/dashboard/successors",
+        icon: Users,
+    },
+    {
+        title: "Verification",
+        path: "/dashboard/verification",
+        icon: Shield,
+    },
+    {
+        title: "Final Wishes",
+        path: "/dashboard/final-wishes",
+        icon: Sparkles,
+    },
+    {
+        title: "Future Messages",
         path: "/dashboard/future-messages",
         icon: Mail,
     },
     {
-        title: "Inheritance Claims",
+        title: "Claims",
         path: "/dashboard/claims",
-        icon: ClipboardCheck,
+        icon: Lock,
     },
     {
         title: "Settings",
