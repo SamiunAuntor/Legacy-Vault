@@ -1,16 +1,27 @@
-import { NavLink } from "react-router-dom";
-import { userSidebar } from "../../constants/sidebar";
+import {
+    NavLink,
+} from "react-router-dom";
+import {
+    Zap,
+} from "lucide-react";
+
+import {
+    userSidebar,
+} from "../../constants/sidebar";
 
 export default function Sidebar() {
     return (
-        <aside className="w-72 border-r bg-white">
-            <div className="border-b p-6">
-                <h1 className="text-2xl font-bold text-emerald-600">
+        <aside className="hidden w-64 shrink-0 border-r border-slate-200 bg-white lg:flex lg:flex-col">
+            <div className="px-5 py-5">
+                <h1 className="text-lg font-bold text-emerald-700">
                     LegacyVault
                 </h1>
+                <p className="mt-1 text-xs font-medium text-slate-600">
+                    Secure Digital Estate
+                </p>
             </div>
 
-            <nav className="space-y-2 p-4">
+            <nav className="space-y-2 p-2">
                 {userSidebar.map((item) => {
                     const Icon = item.icon;
 
@@ -18,20 +29,27 @@ export default function Sidebar() {
                         <NavLink
                             key={item.path}
                             to={item.path}
+                            end={item.path === "/dashboard"}
                             className={({ isActive }) =>
-                                `flex items-center gap-3 rounded-xl p-3 transition ${isActive
-                                    ? "bg-emerald-50 text-emerald-600"
-                                    : "hover:bg-gray-100"
+                                `flex items-center gap-3 border-l-4 px-5 py-4 text-sm font-medium transition ${isActive
+                                    ? "border-emerald-700 bg-emerald-50 text-emerald-800"
+                                    : "border-transparent text-slate-700 hover:bg-slate-50"
                                 }`
                             }
                         >
-                            <Icon size={20} />
-
+                            <Icon size={17} />
                             {item.title}
                         </NavLink>
                     );
                 })}
             </nav>
+
+            <div className="mt-auto p-5">
+                <button className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 text-sm font-bold text-white shadow-sm">
+                    <Zap size={15} />
+                    Upgrade to Pro
+                </button>
+            </div>
         </aside>
     );
 }
