@@ -3,6 +3,7 @@ import {
     CheckCircle2,
     FileText,
     HeartHandshake,
+    LifeBuoy,
     Lock,
     MessageSquareHeart,
     ShieldCheck,

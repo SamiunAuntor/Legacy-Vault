@@ -222,7 +222,12 @@ function StepIdentity({ form, loading, onContinue, update }) {
                             {loading ? "Loading..." : "Save and Continue"}
                             <ArrowRight size={16} />
                         </button>
-                        <Link to="/" className="h-12 px-4 text-sm font-medium text-slate-500">Cancel</Link>
+                        <Link
+                            to="/"
+                            className="inline-flex h-12 items-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+                        >
+                            Cancel
+                        </Link>
                     </div>
                 </div>
                 <SecuritySidebar />

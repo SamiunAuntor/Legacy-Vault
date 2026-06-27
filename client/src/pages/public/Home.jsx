@@ -10,6 +10,12 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const workflowImage =
+    "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80";
+
+const heroImage =
+    "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1400&q=80";
+
 const workflowSteps = [
     "Create your vault and define what matters most.",
     "Nominate a trusted successor and configure proof questions.",
@@ -24,7 +30,7 @@ const securityPillars = [
     },
     {
         title: "Multi-Party Verification",
-        text: "Combine successor answers, identity proof, and admin review before vault access is granted.",
+        text: "Combine successor answers, identity proof, and controlled verification checks before vault access is granted.",
         icon: Users,
     },
     {
@@ -115,12 +121,19 @@ function Hero() {
                 </div>
 
                 <div className="rounded-xl border border-slate-300 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-                    <div className="relative overflow-hidden rounded-md bg-[#0f1112] p-4">
+                    <div className="relative h-[392px] overflow-hidden rounded-md bg-[#0f1112] p-4">
                         <img
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbzl0NfHhphf0ZebzjIxnZuqLpuzR9BhO6D1mjT5W5bKNe949-RG1MTWsgpCr0FGSmUn5qKwEke493dhyWCHK9wawk4FzQXlDVMx77UlDg6qyQwLKwIGBBJGPXpmW3D-R1SrfMtM7_1TXRd8TsbzSMP-fGe9c0ew429_ydPbMs86sGAYHqNlHuUbYGyGtUtm-PnR6hkxie7HFMyi1sEtuFWdgo3IVdQEdTifTXxO2H1tXHIsPqO63hl4z5EJeTFFA_lShmV5ssM6xu"
-                            alt="Abstract secure vault"
-                            className="h-[360px] w-full rounded-md object-cover"
+                            src={heroImage}
+                            alt="Family reviewing legacy and estate documents together"
+                            className="h-full w-full rounded-md object-cover"
                         />
+                        <div className="absolute inset-4 rounded-md bg-[linear-gradient(180deg,rgba(6,10,12,0.12),rgba(6,10,12,0.42))]" />
+                        <div className="absolute left-8 top-10 rounded-full border border-white/16 bg-black/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90 backdrop-blur">
+                            Family Legacy Planning
+                        </div>
+                        <div className="absolute right-8 top-10 rounded-full border border-white/16 bg-black/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90 backdrop-blur">
+                            Secure Document Handover
+                        </div>
                         <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-md border border-slate-200 bg-white/92 px-4 py-3 backdrop-blur">
                             <div className="flex items-center gap-3">
                                 <FileText size={18} className="text-[#235842]" />
@@ -175,20 +188,13 @@ function BentoSecurity() {
                         if (index === 1) {
                             return (
                                 <article key={pillar.title} className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm md:col-span-2">
-                                    <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr]">
+                                    <div className="max-w-2xl">
                                         <div>
                                             <span className="flex size-11 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-[#235842]">
                                                 <Icon size={20} />
                                             </span>
                                             <h3 className="mt-5 text-2xl font-bold tracking-[-0.02em] text-slate-950">{pillar.title}</h3>
                                             <p className="mt-3 max-w-lg text-base leading-7 text-slate-600">{pillar.text}</p>
-                                        </div>
-                                        <div className="flex items-end gap-3">
-                                            {["Legal Proxy", "Family Member", "Admin Review"].map((role) => (
-                                                <div key={role} className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">
-                                                    {role}
-                                                </div>
-                                            ))}
                                         </div>
                                     </div>
                                 </article>
@@ -268,10 +274,15 @@ function Workflow() {
                     </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-[linear-gradient(135deg,#f6f7f4,#d7ddda)] p-8">
-                    <div className="flex h-full min-h-[320px] items-end rounded-xl bg-[linear-gradient(180deg,rgba(255,255,255,0.45),rgba(255,255,255,0.18))] p-6 shadow-inner">
-                        <div className="w-full rounded-xl border border-white/70 bg-white/80 p-5 backdrop-blur">
-                            <div className="flex items-center justify-between">
+                <div className="rounded-2xl border border-slate-200 bg-[linear-gradient(135deg,#f6f7f4,#d7ddda)] p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+                    <div className="relative overflow-hidden rounded-[1.4rem]">
+                        <img
+                            src={workflowImage}
+                            alt="Family legacy planning discussion"
+                            className="h-[320px] w-full object-cover"
+                        />
+                        <div className="absolute inset-x-6 bottom-6 rounded-xl border border-white/70 bg-white/88 p-5 backdrop-blur">
+                            <div className="flex items-center justify-between gap-4">
                                 <div>
                                     <p className="text-sm font-bold text-slate-900">Vault Status</p>
                                     <p className="mt-1 text-xs text-slate-500">Primary successor configured</p>
