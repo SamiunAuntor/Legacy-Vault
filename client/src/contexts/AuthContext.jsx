@@ -35,6 +35,7 @@ function toAuthUser(profile) {
         uid: profile.firebaseUid,
         email: profile.email,
         displayName: profile.name,
+        photoURL: profile.photoURL,
     };
 }
 
