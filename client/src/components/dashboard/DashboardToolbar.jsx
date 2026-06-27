@@ -34,16 +34,18 @@ export default function DashboardToolbar({
 
                 <div className="flex items-center gap-3">
                     {action ? action : null}
-                    <button
-                        type="button"
-                        onClick={onFilterClick}
-                        className={`inline-flex h-12 items-center justify-center rounded-[10px] border px-4 transition ${filterActive
-                            ? "border-[#2f6b55] bg-[#eef9f4] text-[#2f6b55]"
-                            : "border-slate-300 bg-white text-slate-500 hover:border-slate-400 hover:text-slate-700"
-                            }`}
-                    >
-                        <SlidersHorizontal size={17} />
-                    </button>
+                    {onFilterClick ? (
+                        <button
+                            type="button"
+                            onClick={onFilterClick}
+                            className={`inline-flex h-12 items-center justify-center rounded-[10px] border px-4 transition ${filterActive
+                                ? "border-[#2f6b55] bg-[#eef9f4] text-[#2f6b55]"
+                                : "border-slate-300 bg-white text-slate-500 hover:border-slate-400 hover:text-slate-700"
+                                }`}
+                        >
+                            <SlidersHorizontal size={17} />
+                        </button>
+                    ) : null}
                 </div>
             </form>
 

@@ -55,6 +55,7 @@ export default function Dashboard() {
                 subtitle: "Uploaded by you",
                 date: documents[0].updatedAt || documents[0].createdAt,
                 icon: FileText,
+                href: "/dashboard/documents",
             }
             : null,
         successor
@@ -64,6 +65,7 @@ export default function Dashboard() {
                 subtitle: `Primary successor: ${successor.fullName}`,
                 date: successor.updatedAt || successor.createdAt,
                 icon: UserRound,
+                href: "/dashboard/successors",
             }
             : null,
         finalWishes[0]
@@ -73,6 +75,7 @@ export default function Dashboard() {
                 subtitle: "Final wishes updated",
                 date: finalWishes[0].updatedAt || finalWishes[0].createdAt,
                 icon: FolderOpen,
+                href: "/dashboard/final-wishes",
             }
             : null,
     ].filter(Boolean);
@@ -121,9 +124,9 @@ export default function Dashboard() {
                     label="Critical Documents"
                     footer={[
                         `${documents.filter((item) => item.category === "FINANCIAL").length} Files`,
-                        `${documents.filter((item) => item.category === "LEGAL").length || documents.filter((item) => item.category === "IDENTITY").length} Files`,
+                        `${documents.filter((item) => item.category === "IDENTITY").length} Files`,
                     ]}
-                    footerLabels={["Financial", "Legal"]}
+                    footerLabels={["Financial", "Identity"]}
                 />
 
                 <section className="rounded-[14px] border border-slate-200 bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
@@ -147,9 +150,12 @@ export default function Dashboard() {
                                 <div className="grid size-9 place-items-center rounded-full border border-slate-200 bg-[#f5f7f8] text-xs font-semibold text-slate-700">
                                     {getInitials(successor.fullName)}
                                 </div>
-                                <div className="grid size-9 place-items-center rounded-full border border-dashed border-slate-300 bg-white text-slate-400">
-                                    <span className="text-lg leading-none">+</span>
-                                </div>
+                                <Link
+                                    to="/dashboard/successors"
+                                    className="inline-flex h-9 items-center rounded-full border border-dashed border-slate-300 px-3 text-xs font-medium text-slate-500 transition hover:border-[#2f6b55] hover:text-[#2f6b55]"
+                                >
+                                    Manage
+                                </Link>
                             </>
                         ) : (
                             <p className="text-sm text-slate-500">No active successor configured yet.</p>
@@ -161,10 +167,13 @@ export default function Dashboard() {
             <section className="mt-6 overflow-hidden rounded-[14px] border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
                 <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5">
                     <h2 className="text-[1.05rem] font-semibold text-slate-900">Recent Activity</h2>
-                    <button className="inline-flex items-center gap-1 text-sm font-medium text-[#2f6b55]">
-                        View Full Log
+                    <Link
+                        to="/dashboard/documents"
+                        className="inline-flex items-center gap-1 text-sm font-medium text-[#2f6b55]"
+                    >
+                        Open Documents
                         <ChevronRight size={14} />
-                    </button>
+                    </Link>
                 </div>
 
                 {recentActivity.length > 0 ? (
@@ -173,7 +182,11 @@ export default function Dashboard() {
                             const Icon = item.icon;
 
                             return (
-                                <div key={item.id} className="flex items-center justify-between gap-4 px-6 py-5">
+                                <Link
+                                    key={item.id}
+                                    to={item.href}
+                                    className="flex items-center justify-between gap-4 px-6 py-5 transition hover:bg-slate-50"
+                                >
                                     <div className="flex items-center gap-4">
                                         <span className="grid size-10 place-items-center rounded-full border border-slate-200 bg-slate-50 text-slate-500">
                                             <Icon size={17} />
@@ -186,9 +199,11 @@ export default function Dashboard() {
 
                                     <div className="text-right">
                                         <p className="text-sm font-medium text-slate-800">{formatDate(item.date)}</p>
-                                        <p className="mt-1 text-[11px] text-slate-500">14:32 EST</p>
+                                        <p className="mt-1 text-[11px] text-slate-500">
+                                            {formatTime(item.date)}
+                                        </p>
                                     </div>
-                                </div>
+                                </Link>
                             );
                         })}
                     </div>
@@ -200,6 +215,17 @@ export default function Dashboard() {
             </section>
         </div>
     );
+}
+
+function formatTime(value) {
+    if (!value) {
+        return "Recently";
+    }
+
+    return new Date(value).toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
 }
 
 function MetricPanel({
