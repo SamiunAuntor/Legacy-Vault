@@ -1,4 +1,4 @@
-import { Infinity, LockKeyhole, ShieldCheck } from "lucide-react";
+import { InfinityIcon, LockKeyhole, ShieldCheck } from "lucide-react";
 
 import BrandLogo from "../common/BrandLogo";
 
@@ -14,7 +14,7 @@ const trustPoints = [
         text: "We never have access to your keys or your data. Complete privacy.",
     },
     {
-        icon: Infinity,
+        icon: InfinityIcon,
         title: "Generational Continuity",
         text: "Seamlessly transfer access to designated heirs when the time comes.",
     },

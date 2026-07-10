@@ -9,10 +9,17 @@ const errorMiddleware = require("./middlewares/error.middleware");
 
 const app = express();
 
-const allowedOrigins = [
+const configuredOrigins = [process.env.CLIENT_URL, process.env.CLIENT_URLS]
+    .filter(Boolean)
+    .join(",")
+    .split(",")
+    .map((origin) => origin.trim().replace(/\/$/, ""))
+    .filter(Boolean);
+
+const allowedOrigins = new Set([
     "http://localhost:5173",
-    process.env.CLIENT_URL,
-];
+    ...configuredOrigins,
+]);
 
 app.use(
     cors({
@@ -20,7 +27,7 @@ app.use(
             // Allow Postman and server-to-server requests
             if (!origin) return callback(null, true);
 
-            if (allowedOrigins.includes(origin)) {
+            if (allowedOrigins.has(origin.replace(/\/$/, ""))) {
                 return callback(null, true);
             }
 

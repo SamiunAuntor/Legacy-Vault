@@ -1,5 +1,4 @@
 import {
-    createContext,
     useEffect,
     useState,
 } from "react";
@@ -23,8 +22,7 @@ import {
 } from "../services/token.service";
 
 import { getToken, removeToken, saveToken } from "../utils/storage";
-
-export const AuthContext = createContext();
+import AuthContext from "./auth-context";
 
 function toAuthUser(profile) {
     if (!profile) {

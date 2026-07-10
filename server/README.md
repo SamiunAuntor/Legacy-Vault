@@ -92,11 +92,16 @@ Variable notes:
 
 Add the Firebase Admin SDK service account file at:
 
-```text
-server/firebase/serviceAccountKey.json
+```env
+FIREBASE_PROJECT_ID=
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+FIREBASE_WEB_API_KEY=
 ```
 
-This file is required by `src/config/firebase.js` and should never be committed.
+Alternatively, set `FIREBASE_SERVICE_ACCOUNT_BASE64` to the base64-encoded service-account JSON. During local development only, `firebase/serviceAccountKey.json` is also supported and remains gitignored.
+
+See `.env.example` for the complete list. Never commit real credentials.
 
 ## Installation
 
@@ -127,6 +132,16 @@ http://localhost:5000/api/v1
 ```bash
 npm start
 ```
+
+## Deploy Backend to Vercel
+
+1. Import this repository as a new Vercel project.
+2. Set the project's **Root Directory** to `server`.
+3. Add every variable from `server/.env.example` in Project Settings > Environment Variables. Set `CLIENT_URL` to the deployed frontend origin (multiple origins may be comma-separated).
+4. Deploy. `vercel.json` routes requests to the serverless Express entry in `api/index.js`.
+5. Verify `https://YOUR-BACKEND.vercel.app/`, then use `https://YOUR-BACKEND.vercel.app/api/v1` as the frontend API URL.
+
+MongoDB Atlas must allow connections from Vercel. For production, use an appropriately restricted database user and Atlas network configuration.
 
 ## API Health Check
 
