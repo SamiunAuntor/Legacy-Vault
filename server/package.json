@@ -8,7 +8,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "firebase:encode": "node scripts/encode-firebase-service-account.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

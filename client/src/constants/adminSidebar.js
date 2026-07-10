@@ -5,7 +5,6 @@ import {
     LayoutDashboard,
     Lock,
     Settings,
-    Shield,
     Users,
 } from "lucide-react";
 

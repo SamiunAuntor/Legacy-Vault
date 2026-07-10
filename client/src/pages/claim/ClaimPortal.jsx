@@ -28,6 +28,7 @@ const steps = [
 
 export default function ClaimPortal() {
     const navigate = useNavigate();
+    const [referenceId] = useState(() => Date.now().toString().slice(-6));
     const [currentStep, setCurrentStep] = useState(0);
     const [loading, setLoading] = useState(false);
     const [questions, setQuestions] = useState([]);
@@ -174,7 +175,7 @@ export default function ClaimPortal() {
                         Need help with your claim? View claim status
                         <ChevronRight size={14} />
                     </Link>
-                    <span>Reference ID: LV-{Date.now().toString().slice(-6)}</span>
+                    <span>Reference ID: LV-{referenceId}</span>
                 </div>
             </div>
         </div>

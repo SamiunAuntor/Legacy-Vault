@@ -4,7 +4,6 @@ import {
     FolderOpen,
     UserRound,
 } from "lucide-react";
-import { useState } from "react";
 import { useQueries } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
@@ -29,7 +28,6 @@ export default function Dashboard() {
     });
 
     const documents = results[0]?.data || [];
-    const messages = results[1]?.data || [];
     const successor = results[2]?.data;
     const questions = results[3]?.data || [];
     const finalWishes = results[4]?.data || [];

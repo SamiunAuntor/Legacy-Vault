@@ -2,6 +2,15 @@
 
 LegacyVault is a secure digital inheritance platform for preserving important documents, final wishes, future messages, and successor access instructions. It combines a React frontend with an Express/MongoDB backend, Firebase authentication, Cloudinary document storage, and an admin-reviewed claim workflow.
 
+## Vercel Deployment
+
+Deploy this monorepo as two independent Vercel projects:
+
+- Frontend: root directory `client`; details and environment variables are in `client/README.md` and `client/.env.example`.
+- Backend: root directory `server`; details and environment variables are in `server/README.md` and `server/.env.example`.
+
+Deploy the backend first, configure its URL as the frontend's `VITE_API_URL`, then configure the frontend's deployed origin as the backend's `CLIENT_URL`.
+
 ## Problem Statement
 
 Important family, financial, legal, and digital asset information is often scattered across devices, inboxes, cloud drives, and paper folders. When something happens to a person, trusted family members may not know what exists, where to find it, or how to access it safely.
