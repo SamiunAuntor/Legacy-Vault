@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 import BrandLogo from "../common/BrandLogo";
 import AuthPanel from "./AuthPanel";
 

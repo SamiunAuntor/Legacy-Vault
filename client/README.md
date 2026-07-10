@@ -130,3 +130,13 @@ npm run build
 ```
 
 The production output is generated in `dist/`.
+
+## Deploy Frontend to Vercel
+
+1. Import this repository as a separate Vercel project.
+2. Set the project's **Root Directory** to `client`.
+3. Vercel should detect Vite (`npm run build`, output directory `dist`).
+4. Add all variables from `client/.env.example`. Set `VITE_API_URL` to `https://YOUR-BACKEND.vercel.app/api/v1`.
+5. Deploy, then add the deployed frontend origin to the backend project's `CLIENT_URL` and redeploy the backend.
+
+The included `vercel.json` sends browser-refresh requests such as `/dashboard` back to `index.html` so React Router can handle them.

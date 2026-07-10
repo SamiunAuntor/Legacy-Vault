@@ -1,6 +1,5 @@
 import {
     ArrowRight,
-    CheckCircle2,
     FileText,
     HeartHandshake,
     LifeBuoy,

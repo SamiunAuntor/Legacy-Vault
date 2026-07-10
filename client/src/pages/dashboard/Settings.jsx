@@ -23,12 +23,6 @@ export default function Settings() {
     const [photoPreview, setPhotoPreview] = useState("");
 
     useEffect(() => {
-        if (!photoFile) {
-            setPhotoPreview("");
-        }
-    }, [photoFile]);
-
-    useEffect(() => {
         return () => {
             if (photoPreview?.startsWith("blob:")) {
                 URL.revokeObjectURL(photoPreview);
