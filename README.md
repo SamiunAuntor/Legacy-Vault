@@ -2,131 +2,62 @@
 
 LegacyVault is a secure digital inheritance platform for preserving important documents, final wishes, future messages, and successor access instructions. It combines a React frontend with an Express/MongoDB backend, Firebase authentication, Cloudinary document storage, and an admin-reviewed claim workflow.
 
-## Vercel Deployment
+The application is designed for a sensitive real-world problem: helping a person organize important personal, family, financial, legal, and digital asset information before it is needed, while making sure access is only released to a trusted successor after verification and admin review.
 
-Deploy this monorepo as two independent Vercel projects:
+## Table of Contents
 
-- Frontend: root directory `client`; details and environment variables are in `client/README.md` and `client/.env.example`.
-- Backend: root directory `server`; details and environment variables are in `server/README.md` and `server/.env.example`.
-
-Deploy the backend first, configure its URL as the frontend's `VITE_API_URL`, then configure the frontend's deployed origin as the backend's `CLIENT_URL`.
+- [Problem Statement](#problem-statement)
+- [Solution Overview](#solution-overview)
+- [Core Features](#core-features)
+- [User Roles](#user-roles)
+- [End-to-End Workflow](#end-to-end-workflow)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Environment Setup](#environment-setup)
+- [Run Locally](#run-locally)
+- [API Areas](#api-areas)
+- [Data Model Summary](#data-model-summary)
+- [Security Highlights](#security-highlights)
+- [Demo Flow](#demo-flow)
+- [Troubleshooting](#troubleshooting)
+- [Documentation](#documentation)
+- [Future Improvements](#future-improvements)
+- [License](#license)
 
 ## Problem Statement
 
-Important family, financial, legal, and digital asset information is often scattered across devices, inboxes, cloud drives, and paper folders. When something happens to a person, trusted family members may not know what exists, where to find it, or how to access it safely.
+Important life records are often scattered across paper files, cloud drives, email inboxes, phones, bank portals, and private notes. When a person becomes unavailable, their family or trusted representative may not know:
 
-LegacyVault solves this by giving users a private vault where they can organize sensitive records and define a trusted successor. Access is not handed over automatically. A successor must submit a claim, answer verification questions, and wait for admin review before released vault information becomes available.
+- What documents exist
+- Where critical information is stored
+- Who is allowed to access it
+- Which wishes or instructions should be followed
+- How to verify the right successor without exposing private data too early
+
+LegacyVault solves this by giving users a private vault where they can store sensitive information and define a trusted successor. Access is not automatic. A successor must submit a claim, answer verification questions, and wait for admin approval before released vault information becomes available.
 
 ## Solution Overview
 
-LegacyVault is built around three main experiences:
+LegacyVault has three main experiences:
 
 - **Vault owner experience**: A registered user stores documents, final wishes, future messages, verification questions, and successor details.
-- **Successor experience**: A trusted successor can submit a claim and, after approval, access released vault materials.
+- **Successor experience**: A trusted successor submits a claim and, after approval, accesses released vault materials.
 - **Admin experience**: Admins review claims, approve or reject access, inspect dashboard data, and view audit logs.
 
-The project is designed as a hackathon-ready full-stack MERN-style application with clear module boundaries, authentication, role-based admin protection, file upload support, and a claim verification workflow.
-
-## Project Structure
-
-```text
-LegacyVault/
-|-- client/   # React + Vite frontend
-|-- server/   # Express API, MongoDB models, Firebase Admin integration
-|-- LICENSE
-|-- README.md
-```
+The project is a hackathon-ready full-stack MERN-style application with clear module boundaries, authentication, role-based admin protection, file upload support, and a claim verification workflow.
 
 ## Core Features
 
 - Firebase-backed authentication with protected user and admin areas
 - Personal dashboard for documents, successors, verification questions, final wishes, future messages, claims, and settings
-- Secure document upload and retrieval through the backend
+- Secure document upload and retrieval through backend-controlled Cloudinary storage
 - Successor management and vault access flow
 - Verification questions with hashed answers
-- Claim submission and admin approval/rejection workflow
+- Claim submission with verification scoring
+- Admin claim approval and rejection workflow
 - Audit logging for important vault and claim events
-
-## Feature Details
-
-### Authentication and Profiles
-
-- Users can register and log in through Firebase-backed authentication.
-- The backend can create or resolve user records after authentication.
-- User profile data includes name, email, profile photo, active status, and role.
-- Admin-only areas are protected by backend role middleware.
-
-### Document Vault
-
-Users can upload and manage important documents through the dashboard. Documents are stored through Cloudinary and tracked in MongoDB with metadata such as name, size, extension, resource type, and status.
-
-Supported document categories:
-
-- `IDENTITY`
-- `FINANCIAL`
-- `PROPERTY`
-- `INSURANCE`
-- `BUSINESS`
-- `DIGITAL_ASSETS`
-
-Document statuses:
-
-- `VERIFIED`
-- `ARCHIVED`
-- `ACTION_REQUIRED`
-
-### Successor Management
-
-Each vault owner can define a trusted successor with identity and relationship details. A successor record tracks whether access has been granted and when vault access was approved.
-
-Successor statuses:
-
-- `PENDING`
-- `ACTIVE`
-- `CLAIMED`
-
-### Verification Questions
-
-Vault owners create custom questions that successors must answer during the claim process. Answers are stored as bcrypt hashes, so raw answers are not persisted in the database.
-
-### Final Wishes
-
-Users can write structured final wishes by category:
-
-- `PERSONAL`
-- `FAMILY`
-- `ASSET`
-- `BUSINESS`
-- `OTHER`
-
-### Future Messages
-
-Users can create messages intended to be released after a successful claim approval. Messages can be:
-
-- `TEXT`
-- `AUDIO`
-- `VIDEO`
-
-Each message tracks release state and release time.
-
-### Claim System
-
-The successor claim flow collects claimant identity information, relationship details, NID number, verification answers, and optional identity document data. The system calculates verification results and moves the claim into review.
-
-Claim statuses:
-
-- `PENDING`
-- `UNDER_REVIEW`
-- `APPROVED`
-- `REJECTED`
-
-### Admin Review
-
-Admins can review submitted claims, approve or reject access, and inspect audit logs. Approval grants successor access to released vault data and releases eligible future messages.
-
-### Audit Logging
-
-Important system actions are stored as audit logs with actor, action, entity, entity ID, metadata, and timestamps. This gives the platform a traceable history for sensitive vault and claim events.
+- Separate public, authenticated, successor, and admin interfaces
 
 ## User Roles
 
@@ -164,6 +95,9 @@ Successor access is represented through successor records and claim verification
 - Axios
 - Tailwind CSS
 - Framer Motion
+- React Hook Form
+- Zod
+- Lucide React
 
 **Backend**
 
@@ -174,7 +108,9 @@ Successor access is represented through successor records and claim verification
 - Cloudinary
 - Multer
 - JWT
+- bcryptjs
 - Zod
+- Morgan
 
 ## Architecture
 
@@ -185,7 +121,11 @@ React + Vite Client
         v
 Express API (/api/v1)
         |
-        | Mongoose models and service modules
+        | Controllers validate request flow
+        v
+Service modules
+        |
+        | Mongoose models
         v
 MongoDB
 
@@ -194,27 +134,38 @@ External services:
 - Cloudinary for document and profile photo uploads
 ```
 
-## API Areas
+## Project Structure
 
-The backend API is mounted under `/api/v1` and is organized by feature module:
-
-- `/auth` - login, registration, Firebase login, current user, profile update, photo upload
-- `/successors` - successor CRUD, access status, released vault data
-- `/questions` - verification question management
-- `/documents` - upload, list, open, download, status update, delete
-- `/final-wishes` - final wish CRUD
-- `/future-messages` - future message CRUD
-- `/claims` - claim submission, verification questions, user claim history
-- `/admin` - admin dashboard, pending claims, approvals, rejections, audit logs
-
-## Prerequisites
-
-- Node.js 20 or newer
-- npm
-- MongoDB connection string
-- Firebase project for client authentication
-- Firebase Admin service account JSON for the backend
-- Cloudinary account for file uploads
+```text
+LegacyVault/
+|-- client/                 # React + Vite frontend
+|   |-- src/
+|   |   |-- app/            # App providers
+|   |   |-- components/     # Shared UI and layout components
+|   |   |-- contexts/       # Auth context
+|   |   |-- firebase/       # Firebase client configuration
+|   |   |-- layouts/        # Public, dashboard, admin, successor layouts
+|   |   |-- pages/          # Route-level screens
+|   |   |-- routes/         # Router and route guards
+|   |   |-- services/       # API service wrappers
+|   |   |-- styles/         # Global styles
+|   |   |-- utils/          # Storage, formatting, Firebase error helpers
+|   |-- README.md
+|
+|-- server/                 # Express API
+|   |-- src/
+|   |   |-- config/         # MongoDB, Firebase, Cloudinary, Multer config
+|   |   |-- constants/      # Shared constants
+|   |   |-- middlewares/    # Auth, role, error middleware
+|   |   |-- modules/        # Feature modules
+|   |   |-- routes/         # API route registration
+|   |   |-- app.js          # Express app setup
+|   |   |-- server.js       # Server bootstrap
+|   |-- README.md
+|
+|-- LICENSE
+|-- README.md
+```
 
 ## Environment Setup
 
@@ -237,6 +188,7 @@ PORT=5000
 CLIENT_URL=http://localhost:5173
 DATABASE_URL=
 JWT_SECRET=
+FIREBASE_WEB_API_KEY=
 
 CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
@@ -249,7 +201,7 @@ Place the Firebase Admin SDK service account at:
 server/firebase/serviceAccountKey.json
 ```
 
-The repository `.gitignore` already excludes `.env`, `node_modules`, `dist`, and the Firebase service account file.
+The repository `.gitignore` excludes `.env`, `node_modules`, `dist`, and the Firebase service account file.
 
 ## Run Locally
 
@@ -272,8 +224,45 @@ npm run dev
 Default local URLs:
 
 - Frontend: `http://localhost:5173`
-- Backend: `http://localhost:5000`
+- Backend health check: `http://localhost:5000`
 - API base: `http://localhost:5000/api/v1`
+
+## API Areas
+
+The backend API is mounted under `/api/v1` and organized by feature module:
+
+- `/auth` - registration, login, Firebase login, current user, profile update, photo upload
+- `/successors` - successor CRUD, access status, released vault data
+- `/questions` - verification question management
+- `/documents` - upload, list, open, download, status update, delete
+- `/final-wishes` - final wish CRUD
+- `/future-messages` - future message CRUD
+- `/claims` - claim submission, verification questions, user claim history
+- `/admin` - admin dashboard, pending claims, approvals, rejections, audit logs
+
+See [server/README.md](server/README.md) for the full endpoint list.
+
+## Data Model Summary
+
+- **User**: stores identity, email, Firebase UID, role, active status, profile photo URL, and profile photo public ID.
+- **Document**: stores owner, document name, category, Cloudinary URL/public ID, file metadata, and status.
+- **Successor**: stores owner, successor identity details, relationship, verification state, access state, and status.
+- **Question**: stores owner, question text, and hashed answer.
+- **FinalWish**: stores owner, category, title, and content.
+- **FutureMessage**: stores owner, title, message type, content or file URL, and release state.
+- **Claim**: stores successor claim details, score, answer counts, review state, and admin review metadata.
+- **AuditLog**: stores actor ID, action, entity, entity ID, metadata, and timestamp history.
+
+## Security Highlights
+
+- Firebase authentication is used on the frontend and verified by the backend.
+- Protected API routes require bearer tokens.
+- Admin endpoints require the `ADMIN` role.
+- Verification answers are hashed with bcrypt.
+- Files are uploaded through backend-controlled Multer and Cloudinary flows.
+- Environment variables and Firebase service account credentials are excluded from Git.
+- Audit logs record important claim and vault events.
+- CORS is restricted to `http://localhost:5173` and the configured `CLIENT_URL`.
 
 ## Demo Flow
 
@@ -287,16 +276,6 @@ For a complete demo, run both apps and walk through this sequence:
 6. Log in as an admin user.
 7. Review the claim from the admin area.
 8. Approve the claim and check successor vault access from `/vault-access`.
-
-## Security Highlights
-
-- Firebase authentication is used on the frontend and verified by the backend.
-- Protected API routes require bearer tokens.
-- Admin endpoints require the `ADMIN` role.
-- Verification answers are hashed with bcrypt.
-- Sensitive files are uploaded through backend-controlled Multer and Cloudinary flows.
-- Environment variables and Firebase service account credentials are excluded from Git.
-- Audit logs record important claim and vault events.
 
 ## Useful Scripts
 
@@ -316,6 +295,28 @@ npm run dev
 npm start
 ```
 
+## Troubleshooting
+
+**Firebase Admin service account error**
+
+Make sure `server/firebase/serviceAccountKey.json` exists. The backend imports this file from `src/config/firebase.js`.
+
+**Frontend cannot reach backend**
+
+Confirm the backend is running on `http://localhost:5000` and `client/.env` has `VITE_API_URL=http://localhost:5000/api/v1`.
+
+**CORS error**
+
+Confirm `CLIENT_URL` in `server/.env` matches the frontend origin, usually `http://localhost:5173`.
+
+**MongoDB connection error**
+
+Confirm `DATABASE_URL` is set to a valid MongoDB connection string and the database is reachable from your machine.
+
+**Cloudinary upload error**
+
+Confirm all Cloudinary variables are set in `server/.env`: `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET`.
+
 ## Documentation
 
 - [Frontend README](client/README.md)
@@ -329,6 +330,8 @@ npm start
 - Two-factor authentication for high-risk actions
 - More detailed admin analytics
 - Stronger document review and verification workflows
+- Automated tests for API services and route guards
+- Deployment guides for the client and server
 
 ## License
 
