@@ -90,6 +90,21 @@ export default function Login() {
             title="Open your Vault"
             subtitle="Access your documents, wishes, and successor settings securely."
         >
+            <div className="mb-4 rounded-lg border border-dashed border-emerald-500 bg-emerald-50/70 px-4 py-3">
+                <p className="mb-2 text-center text-xs font-bold uppercase tracking-[0.12em] text-[#235842]">
+                    Quick Login
+                </p>
+                <button
+                    className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#3d8742] text-sm font-semibold text-white transition hover:bg-[#34753a] disabled:cursor-not-allowed disabled:opacity-70"
+                    type="button"
+                    onClick={submitQuickLogin}
+                    disabled={loading}
+                >
+                    <UserRound size={17} />
+                    {loading ? "Signing in..." : "User Account"}
+                </button>
+            </div>
+
             <button
                 className="flex h-12 w-full items-center justify-center gap-3 rounded-md border border-slate-300 bg-white text-base font-medium text-slate-800 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70"
                 type="button"
@@ -109,21 +124,6 @@ export default function Login() {
             </div>
 
             <form className="space-y-5" onSubmit={submitLogin}>
-                <div className="rounded-xl border-2 border-dashed border-emerald-500 bg-emerald-50/70 px-5 py-5">
-                    <p className="mb-4 text-center text-sm font-bold uppercase tracking-[0.14em] text-[#235842]">
-                        Quick Login
-                    </p>
-                    <button
-                        className="flex h-12 w-full items-center justify-center gap-3 rounded-md bg-[#3d8742] text-base font-semibold text-white transition hover:bg-[#34753a] disabled:cursor-not-allowed disabled:opacity-70"
-                        type="button"
-                        onClick={submitQuickLogin}
-                        disabled={loading}
-                    >
-                        <UserRound size={19} />
-                        {loading ? "Signing in..." : "User Account"}
-                    </button>
-                </div>
-
                 <div>
                     <label className="mb-2 block text-sm font-medium text-slate-600">
                         Secure Email Address
