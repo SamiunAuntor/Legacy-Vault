@@ -4,6 +4,7 @@ import AuthPanel from "./AuthPanel";
 export default function AuthCard({
     title,
     subtitle,
+    beforeTitle,
     children,
 }) {
     return (
@@ -25,6 +26,9 @@ export default function AuthCard({
                             </div>
 
                             <header className="mb-8">
+                                {beforeTitle && (
+                                    <div className="mb-5">{beforeTitle}</div>
+                                )}
                                 <h1 className="text-3xl font-semibold tracking-[-0.03em] text-slate-950">
                                     {title}
                                 </h1>

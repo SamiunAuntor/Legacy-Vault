@@ -89,29 +89,23 @@ export default function Login() {
         <AuthCard
             title="Open your Vault"
             subtitle="Access your documents, wishes, and successor settings securely."
+            beforeTitle={(
+                <div className="rounded-lg border border-dashed border-emerald-500 bg-emerald-50/70 px-4 py-3">
+                    <p className="mb-2 text-center text-xs font-bold uppercase tracking-[0.12em] text-[#235842]">
+                        Quick Login
+                    </p>
+                    <button
+                        className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#3d8742] text-sm font-semibold text-white transition hover:bg-[#34753a] disabled:cursor-not-allowed disabled:opacity-70"
+                        type="button"
+                        onClick={submitQuickLogin}
+                        disabled={loading}
+                    >
+                        <UserRound size={17} />
+                        {loading ? "Signing in..." : "User Account"}
+                    </button>
+                </div>
+            )}
         >
-            <div className="mb-4 rounded-lg border border-dashed border-emerald-500 bg-emerald-50/70 px-4 py-3">
-                <p className="mb-2 text-center text-xs font-bold uppercase tracking-[0.12em] text-[#235842]">
-                    Quick Login
-                </p>
-                <button
-                    className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#3d8742] text-sm font-semibold text-white transition hover:bg-[#34753a] disabled:cursor-not-allowed disabled:opacity-70"
-                    type="button"
-                    onClick={submitQuickLogin}
-                    disabled={loading}
-                >
-                    <UserRound size={17} />
-                    {loading ? "Signing in..." : "User Account"}
-                </button>
-            </div>
-
-            <div className="mb-4 flex items-center gap-3">
-                <span className="h-px flex-1 bg-slate-200" />
-                <span className="text-xs font-medium uppercase text-slate-400">
-                    Or
-                </span>
-                <span className="h-px flex-1 bg-slate-200" />
-            </div>
 
             <button
                 className="flex h-12 w-full items-center justify-center gap-3 rounded-md border border-slate-300 bg-white text-base font-medium text-slate-800 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70"
