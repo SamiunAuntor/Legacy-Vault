@@ -105,6 +105,14 @@ export default function Login() {
                 </button>
             </div>
 
+            <div className="mb-4 flex items-center gap-3">
+                <span className="h-px flex-1 bg-slate-200" />
+                <span className="text-xs font-medium uppercase text-slate-400">
+                    Or
+                </span>
+                <span className="h-px flex-1 bg-slate-200" />
+            </div>
+
             <button
                 className="flex h-12 w-full items-center justify-center gap-3 rounded-md border border-slate-300 bg-white text-base font-medium text-slate-800 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70"
                 type="button"
