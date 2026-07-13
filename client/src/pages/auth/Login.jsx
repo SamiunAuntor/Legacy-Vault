@@ -7,6 +7,11 @@ import AuthCard from "../../components/auth/AuthCard";
 import useAuth from "../../hooks/useAuth";
 import { getFriendlyAuthErrorMessage } from "../../utils/firebaseErrors";
 
+const QUICK_LOGIN_CREDENTIALS = {
+    email: "john@gmail.com",
+    password: "John1234",
+};
+
 export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -41,21 +46,30 @@ export default function Login() {
         }));
     };
 
-    const submitLogin = async (event) => {
-        event.preventDefault();
+    const authenticate = async (email, password) => {
         setLoading(true);
 
         try {
-            await login(
-                form.email,
-                form.password
-            );
+            await login(email, password);
             toast.success("Welcome back to your vault.");
         } catch (error) {
             toast.error(getFriendlyAuthErrorMessage(error, "Unable to sign in."));
         } finally {
             setLoading(false);
         }
+    };
+
+    const submitLogin = (event) => {
+        event.preventDefault();
+        authenticate(form.email, form.password);
+    };
+
+    const submitQuickLogin = () => {
+        setForm(QUICK_LOGIN_CREDENTIALS);
+        authenticate(
+            QUICK_LOGIN_CREDENTIALS.email,
+            QUICK_LOGIN_CREDENTIALS.password
+        );
     };
 
     const submitGoogle = async () => {
@@ -147,6 +161,15 @@ export default function Login() {
                     />
                     Remember me for 30 days
                 </label>
+
+                <button
+                    className="flex h-12 w-full items-center justify-center rounded-md border border-[#235842] bg-[#235842]/5 text-base font-semibold text-[#235842] transition hover:bg-[#235842]/10 disabled:cursor-not-allowed disabled:opacity-70"
+                    type="button"
+                    onClick={submitQuickLogin}
+                    disabled={loading}
+                >
+                    {loading ? "Signing in..." : "Quick Login as John"}
+                </button>
 
                 <button
                     className="flex h-13 w-full items-center justify-center gap-2 rounded-md bg-[#235842] text-lg font-semibold text-white transition hover:bg-[#1c4937] disabled:cursor-not-allowed disabled:opacity-70"
