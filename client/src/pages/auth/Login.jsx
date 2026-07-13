@@ -1,4 +1,4 @@
-import { Eye, EyeOff, LockKeyhole } from "lucide-react";
+import { Eye, EyeOff, LockKeyhole, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -109,6 +109,21 @@ export default function Login() {
             </div>
 
             <form className="space-y-5" onSubmit={submitLogin}>
+                <div className="rounded-xl border-2 border-dashed border-emerald-500 bg-emerald-50/70 px-5 py-5">
+                    <p className="mb-4 text-center text-sm font-bold uppercase tracking-[0.14em] text-[#235842]">
+                        Quick Login
+                    </p>
+                    <button
+                        className="flex h-12 w-full items-center justify-center gap-3 rounded-md bg-[#3d8742] text-base font-semibold text-white transition hover:bg-[#34753a] disabled:cursor-not-allowed disabled:opacity-70"
+                        type="button"
+                        onClick={submitQuickLogin}
+                        disabled={loading}
+                    >
+                        <UserRound size={19} />
+                        {loading ? "Signing in..." : "User Account"}
+                    </button>
+                </div>
+
                 <div>
                     <label className="mb-2 block text-sm font-medium text-slate-600">
                         Secure Email Address
@@ -161,15 +176,6 @@ export default function Login() {
                     />
                     Remember me for 30 days
                 </label>
-
-                <button
-                    className="flex h-12 w-full items-center justify-center rounded-md border border-[#235842] bg-[#235842]/5 text-base font-semibold text-[#235842] transition hover:bg-[#235842]/10 disabled:cursor-not-allowed disabled:opacity-70"
-                    type="button"
-                    onClick={submitQuickLogin}
-                    disabled={loading}
-                >
-                    {loading ? "Signing in..." : "Quick Login as John"}
-                </button>
 
                 <button
                     className="flex h-13 w-full items-center justify-center gap-2 rounded-md bg-[#235842] text-lg font-semibold text-white transition hover:bg-[#1c4937] disabled:cursor-not-allowed disabled:opacity-70"
